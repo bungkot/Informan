@@ -1,0 +1,17 @@
+# Override untuk pengembangan: container "dev" berisi Node + OpenCode CLI,
+# kode di-mount dari host. Dipakai juga oleh .devcontainer.
+services:
+  dev:
+    build:
+      context: .
+      target: dev
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434/v1
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5-coder:3b}
+    volumes:
+      - .:/workspace:cached
+    working_dir: /workspace
+    mem_limit: ${DEV_MEM_LIMIT:-1g}   # total stack (ollama 2g + dev 1g) = 3g

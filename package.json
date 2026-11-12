@@ -1,0 +1,33 @@
+{
+  "name": "informan",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "TypeScript project embedding the OpenCode SDK with Ollama running in Docker Desktop",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "doctor": "tsx src/index.ts doctor",
+    "ask": "tsx src/index.ts ask",
+    "stack:up": "docker compose up -d",
+    "stack:down": "docker compose down",
+    "stack:logs": "docker compose logs -f ollama",
+    "stack:dev": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build",
+    "stack:ask": "docker compose --profile app run --rm --build app ask"
+  },
+  "dependencies": {
+    "@ai-sdk/openai-compatible": "^3.0.90",
+    "@opencode-ai/sdk": "1.19.5",
+    "opencode-ai": "1.19.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

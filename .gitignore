@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+workspace/*
+!workspace/.gitkeep
+.DS_Store
+*.log
+.tmp-dbg/

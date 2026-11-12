@@ -1,0 +1,14 @@
+{
+  "name": "informan",
+  "dockerComposeFile": ["../docker-compose.yml", "../docker-compose.dev.yml"],
+  "service": "dev",
+  "runServices": ["ollama", "dev"],
+  "workspaceFolder": "/workspace",
+  "remoteUser": "node",
+  "postCreateCommand": "npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-azuretools.vscode-docker"]
+    }
+  }
+}
