@@ -17,7 +17,7 @@ For development, this repository provides instructions, custom agents, and
 
 ## Quick start (fresh machine)
 ```bash
-git clone <this-repo> && cd Informan
+git clone https://github.com/bungkot/Informan.git && cd Informan
 ./scripts/bootstrap.sh      # check memory, create .env, start Ollama, pull model
 npm install
 npm run doctor              # verify Ollama + model
