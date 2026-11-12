@@ -75,4 +75,4 @@ jobs:
         run: npm run doctor
 
       - name: Smoke test (ask)
-        run: npm run ask -- "Reply with exactly one word: OK"
+        run: 'npm run ask -- "Reply with exactly one word: OK"'
