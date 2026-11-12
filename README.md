@@ -1,6 +1,6 @@
 # opencode-ollama-embedded
 
-[![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg)](https://github.com/<owner>/<repo>/actions/workflows/ci.yml)
+[![CI](https://github.com/bungkot/Informan/actions/workflows/ci.yml/badge.svg)](https://github.com/bungkot/Informan/actions/workflows/ci.yml)
 
 A TypeScript project that embeds the **OpenCode SDK** with **Ollama** running in
 **Docker Desktop** (VM memory > 3 GiB). For development, this repository provides
