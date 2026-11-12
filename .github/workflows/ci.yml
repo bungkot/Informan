@@ -18,7 +18,6 @@ env:
   OLLAMA_KV_CACHE_TYPE: "q8_0"
   OLLAMA_BASE_URL: http://127.0.0.1:11434/v1
   NO_PROXY: localhost,127.0.0.1
-  no_proxy: localhost,127.0.0.1
 
 jobs:
   ci:
