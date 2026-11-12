@@ -9,6 +9,6 @@
 | Connection refused to `localhost:11434` from a container | Wrong host | Inside containers use `http://ollama:11434/v1` |
 | Port 4096 in use | Another OpenCode server is running | Set `OPENCODE_PORT` |
 | Response hangs | Proxy blocking SSE, or model too slow | Access Ollama directly without a proxy; check `docker stats` |
-| Agent calls tools incorrectly | Model too small | Use `qwen2.5-coder:7b` |
+| Agent calls tools incorrectly | Model too small | Use `qwen3.5:4b` or larger |
 | `OOMKilled` | Not enough RAM | See `memory-sizing.md` |
 | `git: dubious ownership` in the container | Different mount UID | Already handled via `safe.directory` in the Dockerfile |

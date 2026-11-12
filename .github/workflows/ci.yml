@@ -10,7 +10,7 @@ env:
   # 19 GB on disk) with num_ctx 8192. The runner has 16 GB RAM, so a swap
   # file is created below before the model is loaded.
   # Local setup is NOT changed: docker-compose.yml / .env.example keep using
-  # qwen2.5-coder:3b.
+  # qwen3.5:2b-q4_K_M.
   OLLAMA_MODEL: glm47-flash-opencode-8k
   OLLAMA_CONTEXT_LENGTH: "8192"
   OLLAMA_KEEP_ALIVE: 5m

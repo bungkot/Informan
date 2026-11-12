@@ -3,7 +3,7 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 [ -f .env ] && set -a && . ./.env && set +a
-MODEL="${OLLAMA_MODEL:-qwen2.5-coder:3b}"
+MODEL="${OLLAMA_MODEL:-qwen3.5:2b-q4_K_M}"
 ok()   { echo "  [OK]   $*"; }
 fail() { echo "  [FAIL] $*"; }
 
