@@ -6,10 +6,12 @@ on:
   pull_request:
 
 env:
-  # CI-only: Claude-style model (Qwen3.5-based, 3.4 GB) with num_ctx 8192.
+  # CI-only: GLM-4.7-Flash coding-agent model (MoE, 30B total / 3B active,
+  # 19 GB on disk) with num_ctx 8192. The runner has 16 GB RAM, so a swap
+  # file is created below before the model is loaded.
   # Local setup is NOT changed: docker-compose.yml / .env.example keep using
   # qwen2.5-coder:3b.
-  OLLAMA_MODEL: claude-coder-4b-8k
+  OLLAMA_MODEL: glm47-flash-opencode-8k
   OLLAMA_CONTEXT_LENGTH: "8192"
   OLLAMA_KEEP_ALIVE: 5m
   OLLAMA_NUM_PARALLEL: "1"
@@ -45,6 +47,14 @@ jobs:
       - name: Install Ollama
         run: curl -fsSL https://ollama.com/install.sh | sh
 
+      - name: Create swap (model is 19 GB, runner has 16 GB RAM)
+        run: |
+          sudo fallocate -l 12G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+          free -h
+
       - name: Start Ollama
         run: |
           nohup ollama serve > /tmp/ollama.log 2>&1 &
@@ -59,13 +69,13 @@ jobs:
           cat /tmp/ollama.log
           exit 1
 
-      - name: Pull Claude-style model
-        run: ollama pull rafw007/qwen35-claude-coder:4b
+      - name: Pull GLM-4.7-Flash coding-agent model
+        run: ollama pull rafw007/glm-4.7-flash-opencode:latest
 
       - name: Create 8K context variant
         run: |
           cat > /tmp/Modelfile <<'EOF'
-          FROM rafw007/qwen35-claude-coder:4b
+          FROM rafw007/glm-4.7-flash-opencode:latest
           PARAMETER num_ctx 8192
           EOF
           ollama create "$OLLAMA_MODEL" -f /tmp/Modelfile
