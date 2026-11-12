@@ -1,8 +1,7 @@
 # Project instructions
 
 This TypeScript (ESM, Node >= 20) application embeds the OpenCode SDK and
-connects to Ollama in Docker Desktop. Project documentation is in `docs/`
-(Indonesian).
+connects to Ollama in Docker Desktop. Project documentation is in `docs/`.
 
 ## Structure
 - `src/config.ts`: centralized environment-based configuration.

@@ -1,24 +1,24 @@
-# Ukuran model dan memori
+# Model and memory sizing
 
-Angka di bawah adalah **perkiraan kasar** (kuantisasi Q4, konteks 8192). Ukur sendiri
-dengan `docker stats`.
+The numbers below are **rough estimates** (Q4 quantization, 8192 context).
+Measure on your own with `docker stats`.
 
-| Model | RAM perkiraan | VM Docker minimum | Catatan |
+| Model | Estimated RAM | Docker VM minimum | Notes |
 |---|---|---|---|
-| `qwen2.5-coder:1.5b` | 1-2 GiB | 3 GiB | Paling aman untuk batas 3g |
-| `qwen2.5-coder:3b` | 2-3 GiB | 3-4 GiB | Default; mepet di batas 3g |
-| `qwen2.5-coder:7b` | 6-7 GiB | 8 GiB | Tidak muat dalam batas 3g |
+| `qwen2.5-coder:1.5b` | 1-2 GiB | 3 GiB | Safest for the 3g cap |
+| `qwen2.5-coder:3b` | 2-3 GiB | 3-4 GiB | Default; tight against the 3g cap |
+| `qwen2.5-coder:7b` | 6-7 GiB | 8 GiB | Does not fit within the 3g cap |
 
-Konfigurasi bawaan membatasi total stack ke **3g**: Ollama `mem_limit=2g`
-(model muat di dalamnya) + dev/app `mem_limit=1g`.
+The default configuration caps the total stack at **3g**: Ollama `mem_limit=2g`
+(the model fits inside it) + dev/app `mem_limit=1g`.
 
-## Cara menurunkan pemakaian
-- Turunkan `OLLAMA_CONTEXT_LENGTH` dari default 8192 (mis. 4096) jika RAM mepet.
-- Pertahankan `OLLAMA_NUM_PARALLEL=1` dan `OLLAMA_MAX_LOADED_MODELS=1`.
-- `OLLAMA_FLASH_ATTENTION=1` + `OLLAMA_KV_CACHE_TYPE=q8_0` memangkas KV cache ~75%.
-- `OLLAMA_KEEP_ALIVE=5m` agar model cepat di-unload saat idle.
-- Set `OLLAMA_MEM_LIMIT` lebih kecil dari memori VM (sisakan >= 1 GiB untuk dev/app dan Docker).
+## How to reduce usage
+- Lower `OLLAMA_CONTEXT_LENGTH` from the default 8192 (e.g. 4096) if RAM is tight.
+- Keep `OLLAMA_NUM_PARALLEL=1` and `OLLAMA_MAX_LOADED_MODELS=1`.
+- `OLLAMA_FLASH_ATTENTION=1` + `OLLAMA_KV_CACHE_TYPE=q8_0` trims the KV cache by ~75%.
+- `OLLAMA_KEEP_ALIVE=5m` so the model is unloaded quickly when idle.
+- Set `OLLAMA_MEM_LIMIT` smaller than the VM memory (leave >= 1 GiB for dev/app and Docker).
 
-## Tanda kehabisan memori
-Container `ollama` restart sendiri, atau `docker inspect ollama` menunjukkan
-`OOMKilled: true`. Solusi: model lebih kecil, konteks lebih pendek, atau naikkan memori VM.
+## Signs of memory exhaustion
+The `ollama` container restarts on its own, or `docker inspect ollama` shows
+`OOMKilled: true`. Fixes: a smaller model, a shorter context, or more VM memory.

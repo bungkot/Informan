@@ -1,43 +1,44 @@
-# Setup di mesin lain
+# Setup on another machine
 
-## 1. Siapkan Docker Desktop
-Settings > Resources > Memory: **minimal > 3 GiB, disarankan 6-8 GiB**, lalu Apply & Restart.
-Linux tanpa Docker Desktop: memori mengikuti RAM host; atur `OLLAMA_MEM_LIMIT`.
+## 1. Prepare Docker Desktop
+Settings > Resources > Memory: **at minimum > 3 GiB, 6-8 GiB recommended**, then
+Apply & Restart.
+Linux without Docker Desktop: memory follows host RAM; set `OLLAMA_MEM_LIMIT`.
 
-## 2. Ambil kode dan bootstrap
+## 2. Get the code and bootstrap
 ```bash
 git clone <repo> && cd opencode-ollama-embedded
 ./scripts/bootstrap.sh
 ```
-Skrip menolak lanjut jika memori Docker <= 3 GiB, membuat `.env`, menjalankan
-stack, dan menunggu model selesai ditarik.
+The script refuses to continue if Docker memory is <= 3 GiB, creates `.env`,
+starts the stack, and waits for the model pull to finish.
 
-## 3. Pilih cara mengembangkan
-**A. Di host:** `npm install && npm run doctor`
+## 3. Choose how to develop
+**A. On host:** `npm install && npm run doctor`
 
-**B. Container dev:**
+**B. Dev container:**
 ```bash
 npm run stack:dev
 docker compose -f docker-compose.yml -f docker-compose.dev.yml exec dev bash
 npm install && npm run doctor
 ```
 
-**C. VS Code:** buka folder, "Dev Containers: Reopen in Container".
+**C. VS Code:** open the folder, "Dev Containers: Reopen in Container".
 
-## 4. GitHub Copilot di VS Code
-Buka repository di VS Code dengan GitHub Copilot aktif. Instruksi proyek
-dimuat dari `.github/copilot-instructions.md`; custom agent ada di
-`.github/agents/`, dan prompt siap pakai ada di `.github/prompts/`.
-Lihat [dokumentasi harness](./copilot-harness.md).
+## 4. GitHub Copilot in VS Code
+Open the repository in VS Code with GitHub Copilot active. Project instructions
+are loaded from `.github/copilot-instructions.md`; custom agents live in
+`.github/agents/`, and ready-to-use prompts are in `.github/prompts/`.
+See the [harness documentation](./copilot-harness.md).
 
-`npm run ask` tetap menjalankan aplikasi OpenCode SDK dengan CLI yang dipatok
-sebagai dependency proyek; CLI global tidak diperlukan.
+`npm run ask` still runs the OpenCode SDK application with the CLI pinned as a
+project dependency; a global CLI is not required.
 
-## 5. Ganti model
-Edit `OLLAMA_MODEL` di `.env`, lalu jalankan `docker compose up -d`. Aplikasi
-menggunakan model tersebut untuk request SDK.
+## 5. Change the model
+Edit `OLLAMA_MODEL` in `.env`, then run `docker compose up -d`. The application
+uses that model for SDK requests.
 
-## Mesin tanpa internet (air-gapped)
-Di mesin berinternet: `docker save ollama/ollama` dan salin volume model
-(`docker run --rm -v ollama:/d -v $PWD:/o alpine tar czf /o/ollama.tgz -C /d .`).
-Di mesin tujuan: `docker load`, buat volume `ollama`, ekstrak arsipnya.
+## Air-gapped machines (no internet)
+On an internet-connected machine: `docker save ollama/ollama` and copy the model
+volume (`docker run --rm -v ollama:/d -v $PWD:/o alpine tar czf /o/ollama.tgz -C /d .`).
+On the target machine: `docker load`, create the `ollama` volume, extract the archive.

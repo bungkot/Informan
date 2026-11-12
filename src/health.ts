@@ -24,8 +24,8 @@ export async function waitForOllama(timeoutMs = 120_000): Promise<void> {
     }
   }
   throw new Error(
-    `Ollama tidak merespons di ${ollamaRoot()} dalam ${timeoutMs / 1000}s. ` +
-      `Jalankan "docker compose up -d". Detail: ${String(last)}`,
+    `Ollama is not responding at ${ollamaRoot()} within ${timeoutMs / 1000}s. ` +
+      `Run "docker compose up -d". Details: ${String(last)}`,
   );
 }
 
@@ -34,8 +34,8 @@ export async function ensureModel(): Promise<void> {
   const wanted = config.model.includes(":") ? config.model : `${config.model}:latest`;
   if (!models.includes(wanted)) {
     throw new Error(
-      `Model "${wanted}" belum ada di Ollama. Tersedia: [${models.join(", ")}]. ` +
-        `Tarik dengan: docker compose exec ollama ollama pull ${wanted}`,
+      `Model "${wanted}" is not available in Ollama. Available: [${models.join(", ")}]. ` +
+        `Pull it with: docker compose exec ollama ollama pull ${wanted}`,
     );
   }
 }

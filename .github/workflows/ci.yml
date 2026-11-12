@@ -6,8 +6,8 @@ on:
   pull_request:
 
 env:
-  # KHUSUS CI: model gaya Claude (basis Qwen3.5, 3,4 GB) dengan num_ctx 8192.
-  # Lokal TIDAK diubah: docker-compose.yml / .env.example tetap memakai
+  # CI-only: Claude-style model (Qwen3.5-based, 3.4 GB) with num_ctx 8192.
+  # Local setup is NOT changed: docker-compose.yml / .env.example keep using
   # qwen2.5-coder:3b.
   OLLAMA_MODEL: claude-coder-4b-8k
   OLLAMA_CONTEXT_LENGTH: "8192"
@@ -50,12 +50,12 @@ jobs:
           nohup ollama serve > /tmp/ollama.log 2>&1 &
           for i in $(seq 1 60); do
             if curl -fsS http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
-              echo "Ollama siap"
+              echo "Ollama is ready"
               exit 0
             fi
             sleep 2
           done
-          echo "Ollama tidak merespons"
+          echo "Ollama is not responding"
           cat /tmp/ollama.log
           exit 1
 

@@ -1,47 +1,49 @@
 # opencode-ollama-embedded
 
-Proyek TypeScript yang menanamkan **OpenCode SDK** dengan **Ollama** yang berjalan
-di **Docker Desktop** (memori VM > 3 GiB). Untuk pengembangan, repository ini
-menyediakan instruksi, custom agent, dan prompt **GitHub Copilot** di `.github/`.
+[![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg)](https://github.com/<owner>/<repo>/actions/workflows/ci.yml)
 
-## Prasyarat
-- Docker Desktop (Compose v2), memori VM **> 3 GiB** (disarankan 6-8 GiB)
-- Node.js >= 20 (opsional jika memakai container dev)
+A TypeScript project that embeds the **OpenCode SDK** with **Ollama** running in
+**Docker Desktop** (VM memory > 3 GiB). For development, this repository provides
+instructions, custom agents, and **GitHub Copilot** prompts in `.github/`.
+
+## Prerequisites
+- Docker Desktop (Compose v2), VM memory **> 3 GiB** (6-8 GiB recommended)
+- Node.js >= 20 (optional when using the dev container)
 - Git
 
-## Mulai cepat (mesin baru)
+## Quick start (fresh machine)
 ```bash
-git clone <repo-ini> && cd opencode-ollama-embedded
-./scripts/bootstrap.sh      # cek memori, buat .env, jalankan Ollama, tarik model
+git clone <this-repo> && cd opencode-ollama-embedded
+./scripts/bootstrap.sh      # check memory, create .env, start Ollama, pull model
 npm install
-npm run doctor              # verifikasi Ollama + model
-npm run ask -- "Buat fungsi TypeScript untuk validasi email"
+npm run doctor              # verify Ollama + model
+npm run ask -- "Write a TypeScript function to validate email"
 ```
 
-Tanpa Node di host:
+Without Node on the host:
 ```bash
-docker compose --profile app run --rm --build app ask "Halo"
+docker compose --profile app run --rm --build app ask "Hello"
 ```
 
-## Mode pengembangan
-| Mode | Perintah |
+## Development modes
+| Mode | Command |
 |---|---|
-| Di host (Node + Ollama di Docker) | `npm run dev -- doctor` |
-| Container dev | `npm run stack:dev` lalu `docker compose -f docker-compose.yml -f docker-compose.dev.yml exec dev bash` |
+| On host (Node + Ollama in Docker) | `npm run dev -- doctor` |
+| Dev container | `npm run stack:dev` then `docker compose -f docker-compose.yml -f docker-compose.dev.yml exec dev bash` |
 | VS Code Dev Containers | "Reopen in Container" |
 
-Di VS Code, GitHub Copilot membaca `.github/copilot-instructions.md`.
-Custom agents tersedia di `.github/agents/` dan prompt proyek di
-`.github/prompts/`; lihat [dokumentasi harness](docs/copilot-harness.md).
+In VS Code, GitHub Copilot reads `.github/copilot-instructions.md`.
+Custom agents are available in `.github/agents/` and project prompts in
+`.github/prompts/`; see the [harness documentation](docs/copilot-harness.md).
 
-## Dokumentasi
-- [Arsitektur](docs/architecture.md)
-- [Setup di mesin lain](docs/setup-other-machine.md)
-- [Harness GitHub Copilot](docs/copilot-harness.md)
-- [Ukuran model dan memori](docs/memory-sizing.md)
+## Documentation
+- [Architecture](docs/architecture.md)
+- [Setup on another machine](docs/setup-other-machine.md)
+- [GitHub Copilot harness](docs/copilot-harness.md)
+- [Model and memory sizing](docs/memory-sizing.md)
 - [Troubleshooting](docs/troubleshooting.md)
 
-## Status verifikasi
-SDK dan CLI OpenCode dipatok ke versi 1.19.5 yang kompatibel. CLI dipasang
-sebagai dependency proyek agar `npm run ask` tidak tanpa sengaja memakai versi
-global yang berbeda; image app memakai CLI lokal yang sama.
+## Verification status
+The OpenCode SDK and CLI are pinned to a compatible version, 1.19.5. The CLI is
+installed as a project dependency so that `npm run ask` does not accidentally
+use a different global version; the app image uses the same local CLI.

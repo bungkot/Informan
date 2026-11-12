@@ -1,5 +1,5 @@
-# Override untuk pengembangan: container "dev" berisi Node + OpenCode CLI,
-# kode di-mount dari host. Dipakai juga oleh .devcontainer.
+# Override for development: the "dev" container contains Node + the OpenCode CLI,
+# with code mounted from the host. Also used by .devcontainer.
 services:
   dev:
     build:

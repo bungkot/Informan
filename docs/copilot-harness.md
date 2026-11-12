@@ -1,38 +1,36 @@
 # GitHub Copilot harness
 
-Konfigurasi Copilot berada di repository agar berlaku konsisten di VS Code dan
-ikut ter-clone bersama kode. Harness ini hanya mengatur pengalaman
-pengembangan; aplikasi tetap memakai OpenCode SDK untuk berkomunikasi dengan
+The Copilot configuration lives in the repository so it applies consistently in
+VS Code and gets cloned along with the code. This harness only shapes the
+development experience; the application itself uses the OpenCode SDK to talk to
 Ollama.
 
-| Lokasi | Fungsi |
+| Location | Purpose |
 |---|---|
-| `.github/copilot-instructions.md` | Aturan proyek yang otomatis berlaku di chat Copilot |
-| `.github/agents/architect.agent.md` | Custom agent read-only untuk perencanaan |
-| `.github/agents/reviewer.agent.md` | Custom agent read-only untuk meninjau perubahan |
-| `.github/prompts/verify.prompt.md` | `/verify`: typecheck, build, dan perbaikan |
-| `.github/prompts/doctor.prompt.md` | `/doctor`: diagnosis Docker/Ollama |
-| `.github/prompts/docs-sync.prompt.md` | `/docs-sync`: sinkronkan dokumentasi dengan konfigurasi |
-| `.github/prompts/review.prompt.md` | `/review`: tinjau perubahan menggunakan reviewer |
+| `.github/copilot-instructions.md` | Project rules applied automatically in Copilot chat |
+| `.github/agents/architect.agent.md` | Read-only custom agent for planning |
+| `.github/agents/reviewer.agent.md` | Read-only custom agent for reviewing changes |
+| `.github/prompts/verify.prompt.md` | `/verify`: typecheck, build, and fixes |
+| `.github/prompts/doctor.prompt.md` | `/doctor`: Docker/Ollama diagnosis |
+| `.github/prompts/docs-sync.prompt.md` | `/docs-sync`: keep documentation in sync with configuration |
+| `.github/prompts/review.prompt.md` | `/review`: review changes using the reviewer |
 
-## Menggunakan
-1. Buka repository di VS Code dengan GitHub Copilot aktif.
-2. Aturan proyek dimuat otomatis dari `.github/copilot-instructions.md`.
-3. Pilih custom agent melalui agent picker, atau jalankan prompt dengan `/`
-   lalu pilih `verify`, `doctor`, `docs-sync`, atau `review`.
+## Usage
+1. Open the repository in VS Code with GitHub Copilot active.
+2. Project rules are loaded automatically from `.github/copilot-instructions.md`.
+3. Pick a custom agent via the agent picker, or run a prompt with `/` and choose
+   `verify`, `doctor`, `docs-sync`, or `review`.
 
-Instruksi utama menjaga TypeScript strict, import ESM dengan suffix `.js`,
-konfigurasi environment terpusat, dan batasan keselamatan Docker/Git. Prompt
-`/verify` menjalankan `npm run typecheck` dan `npm run build`; `/doctor`
-menjalankan `npm run doctor`.
+The main instructions keep TypeScript strict, enforce ESM imports with the `.js`
+suffix, centralized environment configuration, and Docker/Git safety guardrails.
+The `/verify` prompt runs `npm run typecheck` and `npm run build`; `/doctor`
+runs `npm run doctor`.
 
-## Menambah customization
-- Tambahkan aturan lintas proyek di `.github/copilot-instructions.md`.
-- Tambahkan persona dengan fokus tunggal sebagai `.agent.md` di
-  `.github/agents/`.
-- Tambahkan alur tugas yang dipanggil pengguna sebagai `.prompt.md` di
-  `.github/prompts/`.
+## Adding customization
+- Add cross-project rules in `.github/copilot-instructions.md`.
+- Add single-focus personas as `.agent.md` files in `.github/agents/`.
+- Add user-invoked task flows as `.prompt.md` files in `.github/prompts/`.
 
-Gunakan custom agent untuk peran/akses yang berbeda dan prompt untuk satu tugas
-berulang. Validasi frontmatter YAML dan pastikan deskripsi agent menjelaskan
-kapan agent tersebut digunakan.
+Use custom agents for different roles/access levels and prompts for a single
+repeated task. Validate the YAML frontmatter and make sure the agent description
+explains when that agent should be used.

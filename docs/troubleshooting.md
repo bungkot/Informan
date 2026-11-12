@@ -1,14 +1,14 @@
 # Troubleshooting
 
-| Gejala | Penyebab umum | Solusi |
+| Symptom | Common cause | Fix |
 |---|---|---|
-| `bootstrap.sh`: memori <= 3 GiB | Batas Docker Desktop | Settings > Resources > Memory |
-| `Ollama tidak merespons` | Stack belum jalan | `docker compose up -d`, cek `docker compose logs ollama` |
-| `Model ... belum ada` | Model belum ditarik | `docker compose exec ollama ollama pull <model>` |
-| `Timeout waiting for server to start` | Versi CLI global tidak cocok dengan SDK | Jalankan lewat `npm run ask` agar memakai CLI proyek; di Docker, build ulang image app |
-| Connection refused ke `localhost:11434` dari container | Salah host | Di container pakai `http://ollama:11434/v1` |
-| Port 4096 dipakai | Server OpenCode lain aktif | Set `OPENCODE_PORT` |
-| Respons menggantung | Proxy memblokir SSE, atau model terlalu lambat | Akses Ollama langsung tanpa proxy; cek `docker stats` |
-| Agent salah memanggil tool | Model terlalu kecil | Pakai `qwen2.5-coder:7b` |
-| `OOMKilled` | RAM kurang | Lihat `memory-sizing.md` |
-| `git: dubious ownership` di container | UID mount berbeda | Sudah ditangani via `safe.directory` di Dockerfile |
+| `bootstrap.sh`: memory <= 3 GiB | Docker Desktop limit | Settings > Resources > Memory |
+| `Ollama is not responding` | Stack not running | `docker compose up -d`, check `docker compose logs ollama` |
+| `Model ... is not available` | Model not pulled | `docker compose exec ollama ollama pull <model>` |
+| `Timeout waiting for server to start` | Global CLI version mismatches the SDK | Run via `npm run ask` to use the project CLI; in Docker, rebuild the app image |
+| Connection refused to `localhost:11434` from a container | Wrong host | Inside containers use `http://ollama:11434/v1` |
+| Port 4096 in use | Another OpenCode server is running | Set `OPENCODE_PORT` |
+| Response hangs | Proxy blocking SSE, or model too slow | Access Ollama directly without a proxy; check `docker stats` |
+| Agent calls tools incorrectly | Model too small | Use `qwen2.5-coder:7b` |
+| `OOMKilled` | Not enough RAM | See `memory-sizing.md` |
+| `git: dubious ownership` in the container | Different mount UID | Already handled via `safe.directory` in the Dockerfile |

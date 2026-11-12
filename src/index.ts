@@ -7,9 +7,9 @@ async function doctor(): Promise<void> {
   console.log(`Base URL    : ${config.ollamaBaseUrl}`);
   console.log(`Model       : ${config.model}`);
   await waitForOllama(15_000);
-  console.log(`Models      : ${(await listModels()).join(", ") || "(kosong)"}`);
+  console.log(`Models      : ${(await listModels()).join(", ") || "(empty)"}`);
   await ensureModel();
-  console.log("OK: Ollama siap dan model tersedia.");
+  console.log("OK: Ollama is ready and the model is available.");
 }
 
 async function ask(prompt: string): Promise<void> {
@@ -20,7 +20,7 @@ async function ask(prompt: string): Promise<void> {
   try {
     const session = await client.session.create({ body: { title: "ask" } });
     if (!session.data) {
-      throw new Error(`Gagal membuat session: ${JSON.stringify(session.error)}`);
+      throw new Error(`Failed to create session: ${JSON.stringify(session.error)}`);
     }
 
     const result = await client.session.prompt({
@@ -33,7 +33,7 @@ async function ask(prompt: string): Promise<void> {
       },
     });
     if (!result.data) {
-      throw new Error(`Prompt gagal: ${JSON.stringify(result.error)}`);
+      throw new Error(`Prompt failed: ${JSON.stringify(result.error)}`);
     }
 
     const answer = result.data.parts
@@ -41,7 +41,7 @@ async function ask(prompt: string): Promise<void> {
       .map((part) => part.text)
       .join("\n")
       .trim();
-    if (!answer) throw new Error("OpenCode mengembalikan respons kosong dari Ollama.");
+    if (!answer) throw new Error("OpenCode returned an empty response from Ollama.");
     console.log(answer);
   } finally {
     server.close();
@@ -55,11 +55,11 @@ async function main(): Promise<void> {
       return doctor();
     case "ask": {
       const prompt = rest.join(" ").trim();
-      if (!prompt) throw new Error('Pemakaian: ask "pertanyaan Anda"');
+      if (!prompt) throw new Error('Usage: ask "your question"');
       return ask(prompt);
     }
     default:
-      console.log('Perintah: doctor | ask "<prompt>"');
+      console.log('Commands: doctor | ask "<prompt>"');
   }
 }
 

@@ -5,7 +5,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* \
  && git config --system --add safe.directory '*'
 
-# ---- dev: dipakai untuk pengembangan (devcontainer / docker-compose.dev.yml)
+# ---- dev: used for development (devcontainer / docker-compose.dev.yml)
 FROM base AS dev
 RUN npm install -g opencode-ai@1.19.5
 WORKDIR /workspace

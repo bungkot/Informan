@@ -2,9 +2,9 @@ import { createOpencode } from "@opencode-ai/sdk";
 import { config } from "./config.js";
 
 /**
- * Menjalankan server OpenCode (butuh CLI "opencode" di PATH) dan mengembalikan
- * klien bertipe. Konfigurasi provider Ollama diberikan inline sehingga
- * aplikasi tidak bergantung pada file config di mesin host.
+ * Starts the OpenCode server (requires the "opencode" CLI on PATH) and returns
+ * a typed client. The Ollama provider configuration is passed inline so the
+ * application does not depend on a config file on the host machine.
  */
 export async function startOpencode() {
   return createOpencode({
